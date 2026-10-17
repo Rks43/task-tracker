@@ -16,12 +16,14 @@ type Task struct {
 
 func main() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
+log.Printf("request method=%s path=%s", r.Method, r.URL.Path)		
+w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, "OK")
 	})
 
 	http.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
+log.Printf("request method=%s path=%s", r.Method, r.URL.Path)	
+if r.Method != http.MethodGet {
     w.Header().Set("Allow", http.MethodGet)
     http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
     return

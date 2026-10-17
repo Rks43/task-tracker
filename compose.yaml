@@ -1,0 +1,8 @@
+services:
+  task-tracker:
+   build:
+    context: . 
+   image: task-tracker:1.2
+   container_name: task-tracker-api
+   ports:
+     - "8080:8080"
