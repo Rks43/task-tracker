@@ -27,4 +27,7 @@ jobs:
         run: go build -v -o /tmp/task-tracker main.go
 
       - name: Build healthcheck
-        run: go build -v -o /tmp/healthcheck healthcheck.go
+        run: go build -v -o /tmp/healthcheck ./cmd/healthcheck
+
+      - name: Run tests
+        run: go test -v ./...

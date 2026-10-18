@@ -13,12 +13,15 @@ type Task struct {
 	Done  bool   `json:"done"`
 }
 
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("request method=%s path=%s", r.Method, r.URL.Path)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintln(w, "OK")
+}
+
 func main() {
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("request method=%s path=%s", r.Method, r.URL.Path)
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "OK")
-	})
+
+	http.HandleFunc("/health", healthHandler)
 
 	http.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("request method=%s path=%s", r.Method, r.URL.Path)

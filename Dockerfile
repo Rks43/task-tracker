@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY go.mod ./
 COPY main.go ./
-COPY healthcheck.go ./
+COPY cmd/healthcheck/ ./cmd/healthcheck/
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o task-tracker main.go
-RUN CGO_ENABLED=0 GOOS=linux go build -o healthcheck healthcheck.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o healthcheck ./cmd/healthcheck
 
 FROM scratch
 
