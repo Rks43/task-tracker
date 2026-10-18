@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -16,19 +15,19 @@ type Task struct {
 
 func main() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-log.Printf("request method=%s path=%s", r.Method, r.URL.Path)		
-w.WriteHeader(http.StatusOK)
+		log.Printf("request method=%s path=%s", r.Method, r.URL.Path)
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, "OK")
 	})
 
 	http.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
-log.Printf("request method=%s path=%s", r.Method, r.URL.Path)	
-if r.Method != http.MethodGet {
-    w.Header().Set("Allow", http.MethodGet)
-    http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-    return
-}		
-tasks := []Task{
+		log.Printf("request method=%s path=%s", r.Method, r.URL.Path)
+		if r.Method != http.MethodGet {
+			w.Header().Set("Allow", http.MethodGet)
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		tasks := []Task{
 			{ID: 1, Title: "Изучить Go", Done: false},
 			{ID: 2, Title: "Освоить Docker", Done: false},
 		}
@@ -43,4 +42,3 @@ tasks := []Task{
 	log.Println("Server starting on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-
