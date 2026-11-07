@@ -1,11 +1,38 @@
 services:
   task-tracker:
-   build:
-    context: . 
-   image: task-tracker:1.2
-   container_name: task-tracker-api
-   expose:
-     - "8080"
+    build:
+      context: .
+    image: task-tracker:1.2
+    container_name: task-tracker-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: postgres_db
+      DB_USER: postgres_user
+      DB_PASSWORD: postgres_password
+    expose:
+      - "8080"
+  db:
+    image: postgres:latest
+    container_name: task-tracker-db
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: postgres_db
+      PGDATA: /var/lib/postgresql/pgdata
+    ports:
+      - "5430:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_user -d postgres_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/pgdata
   nginx:
     image: nginx:alpine
     container_name: task-tracker-nginx
@@ -43,3 +70,4 @@ services:
 volumes:
   prometheus-data:
   grafana-data:
+  pgdata:
