@@ -1,3 +1,7 @@
 /task-tracker
 /healthcheck
 /pgdata/
+/.pgdata
+/.env
+/.env.*
+!/.env.example
